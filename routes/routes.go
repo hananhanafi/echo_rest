@@ -2,6 +2,7 @@ package routes
 
 import (
 	"echo-rest/controllers"
+	"echo-rest/middleware"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -14,10 +15,14 @@ func Init() *echo.Echo {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	e.GET("/employee", controllers.FetchAllEmployee)
-	e.POST("/employee", controllers.StoreEmployee)
-	e.PUT("/employee", controllers.UpdateEmployee)
-	e.DELETE("/employee", controllers.DeleteEmployee)
+	e.GET("/employee", controllers.FetchAllEmployee, middleware.IsAuthenticated)
+	e.POST("/employee", controllers.StoreEmployee, middleware.IsAuthenticated)
+	e.PUT("/employee", controllers.UpdateEmployee, middleware.IsAuthenticated)
+	e.DELETE("/employee", controllers.DeleteEmployee, middleware.IsAuthenticated)
+
+	e.GET("/generate-hash/:password", controllers.GenerateHashPassword)
+	e.POST("/login", controllers.CheckLogin)
+	e.POST("/login/custom", controllers.CheckLoginCustom)
 
 	return e
 }
