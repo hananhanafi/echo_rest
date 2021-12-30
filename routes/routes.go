@@ -17,6 +17,7 @@ func Init() *echo.Echo {
 	e.GET("/employee", controllers.FetchAllEmployee)
 	e.POST("/employee", controllers.StoreEmployee)
 	e.PUT("/employee", controllers.UpdateEmployee)
+	e.DELETE("/employee", controllers.DeleteEmployee)
 
 	return e
 }
